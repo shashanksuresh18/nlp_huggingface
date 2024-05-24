@@ -9,12 +9,10 @@ app = Flask(__name__)
 
 logging.basicConfig(filename='model_logs.log', level=logging.INFO)
 
-# Load the trained model and label encoder
 model = joblib.load('svm_tfidf_model.joblib')
 label_encoder = joblib.load('label_encoder.joblib')
 
 def tokenize(text):
-    # Split text into words and punctuation
     tokens = re.findall(r'\w+|[^\w\s]', text, re.UNICODE)
     return tokens
 
@@ -28,7 +26,6 @@ def predict():
         text = request.form['text']
         words = tokenize(text)
         
-        # Predict labels for each word
         predictions = model.predict(words)
         decoded_predictions = label_encoder.inverse_transform(predictions)
         
@@ -53,7 +50,6 @@ def testpredict():
         text = data['text']
         words = tokenize(text)
         
-        # Predict labels for each word
         predictions = model.predict(words)
         decoded_predictions = label_encoder.inverse_transform(predictions)
         
